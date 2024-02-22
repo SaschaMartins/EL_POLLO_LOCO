@@ -32,10 +32,11 @@ class MovableObject extends DrawableObject {
     }
 
     playHurtSound() {
-		if (!world.muted && this.isHurtByCharacterCollision()) {
+		if (!world.muted && this.isHurtByCharacterCollision() && this.hurt_sound.paused) {
 			this.hurt_sound.play();
 		}
 	}
+	
 	
 	isHurtByCharacterCollision() {
 		return this instanceof Character && this.isHurt();

@@ -92,11 +92,14 @@ class World {
 	}
 
 	backgroundMusic() {
-		if (this.muted == false) {
+		if (this.muted == false && this.background_sound.paused) {
 			this.background_sound.play();
 			this.background_sound.volume = 0.03;
-		} else this.background_sound.pause();
+		} else if (this.muted == true && !this.background_sound.paused) {
+			this.background_sound.pause();
+		}
 	}
+	
 
 	checkThrowObjects() {
 		if (this.pressEnterAndArrayLength()) {
