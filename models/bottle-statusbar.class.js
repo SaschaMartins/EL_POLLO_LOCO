@@ -23,10 +23,17 @@ class BottleBar extends DrawableObject {
 
 	setBottlebar() {
 		this.setBottlebarInterval = setInterval(() => {
-			super.setBar(world.collectedBottles.length, this.IMAGES_BOTTLEBAR);
+			if (world.collectedBottles.length > 1) {
+				super.setBar(world.collectedBottles.length, this.IMAGES_BOTTLEBAR);
+			} else if (world.collectedBottles.length === 1) {
+				super.setBar(1, [this.IMAGES_BOTTLEBAR[1]]);
+			} else {
+				super.setBar(1, [this.IMAGES_BOTTLEBAR[0]]);
+			}
 		}, 100);
 		allIntervals.push(this.setBottlebarInterval);
 	}
+	
 
 	updateBottleBarStatus() {
 		if (world && world.collectedBottles) {
