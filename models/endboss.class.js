@@ -51,6 +51,9 @@ class Endboss extends MovableObject {
 		"img/4_enemie_boss_chicken/5_dead/G26.png",
 	];
 	speed = 1.5;
+	alertaPlayed = false;
+	isAttacking = false;
+	endbossAnimateInterval = null;
 
 	constructor() {
 		super().loadImage(this.IMAGES_ALERTA[0]);
@@ -61,25 +64,49 @@ class Endboss extends MovableObject {
 		this.loadImages(this.ENDBOSS_DEAD);
 		this.x = 2300;
 		this.animate();
-		this.movement();
 	}
 
 	animate() {
-		this.endbossAnimateInterval = setInterval(() => {
-			if (this.energy <= 0) {
-				this.speed = 0;
-				this.playAnimation(this.ENDBOSS_DEAD);
-			} else if (this.distanceTooClose()) {
-				this.playAnimation(this.IMAGES_ATTACK);
-			} else if (this.checkDistancePepeEndboss() || this.checkIfEndbossMoved()) {
-				this.playAnimation(this.IMAGES_WALKING);
-				this.endbossBarSize();
-			} else {
-				this.playAnimation(this.IMAGES_ALERTA);
+        this.endbossAnimateInterval = setInterval(() => {
+            if (this.energy <= 0) {
+                this.speed = 0;
+                this.playAnimation(this.ENDBOSS_DEAD);
+            } else if (this.isAttacking) {
+                this.playAnimation(this.IMAGES_ATTACK);
+            } else if (!this.alertaPlayed) {
+                this.playAnimation(this.IMAGES_ALERTA);
+                if (this.currentImage % this.IMAGES_ALERTA.length === 0) {
+                    this.alertaPlayed = true;
+                    this.movement();
+                }
+            } else if (this.checkDistancePepeEndboss() || this.checkIfEndbossMoved()) {
+                this.playAnimation(this.IMAGES_WALKING);
+                this.endbossBarSize();
+            }
+        }, 300);
+        allIntervals.push(this.endbossAnimateInterval);
+    }
+
+    hit() {
+        super.hit();
+        if (this.energy > 0 && !this.isDead()) {
+            this.isAttacking = true;
+            setTimeout(() => {
+                this.isAttacking = false;
+            }, this.IMAGES_ATTACK.length * 300); 
+        }
+    }
+
+	destroy() {
+		if (this.endbossAnimateInterval) {
+			clearInterval(this.endbossAnimateInterval);
+			const index = allIntervals.indexOf(this.endbossAnimateInterval);
+			if (index > -1) {
+				allIntervals.splice(index, 1);
 			}
-		}, 300);
-		allIntervals.push(this.endbossAnimateInterval);
+		}
 	}
+	
 
 	endbossBarSize() {
 		world.endbossBar.width = 250;
