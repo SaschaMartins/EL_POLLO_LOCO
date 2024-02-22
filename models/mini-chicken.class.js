@@ -20,11 +20,11 @@ class miniChicken extends MovableObject {
 	CHICKEN_SMALL_DEAD = ["img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
 
-	constructor() {
+	constructor(xPosition) {
 		super().loadImage(this.CHICKEN_SMALL_WALKING[0]);
 		this.loadImages(this.CHICKEN_SMALL_WALKING);
 		this.loadImages(this.CHICKEN_SMALL_DEAD);
-		this.x = 300 + Math.random() * 1000;
+		this.x = xPosition || 300 + Math.random() * 1000;
 		this.speed = 0.7 + Math.random() * 0.5;
 		this.animate();
 		this.minichickenMovement();

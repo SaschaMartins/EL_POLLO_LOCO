@@ -11,7 +11,24 @@ function initLevel() {
 }
 
 function createEnemies() {
-	return [new Chicken(), new Chicken(), new Chicken(), new miniChicken(), new miniChicken(), new miniChicken(), new Endboss()];
+    let enemies = [
+        new Chicken(), new Chicken(), new Chicken(), 
+        new miniChicken(), new miniChicken(), new miniChicken(), 
+        new Endboss()
+    ];
+
+    let endbossPositionX = 2000;
+    let additionalEnemies = [
+		new Chicken(endbossPositionX - 10),
+		new Chicken(endbossPositionX - 30),
+        new Chicken(endbossPositionX - 200),
+        new miniChicken(endbossPositionX - 180),
+		new miniChicken(endbossPositionX - 50),
+		new miniChicken(endbossPositionX - 0),   
+  
+    ];
+
+    return enemies.concat(additionalEnemies);
 }
 
 function createBackgrounds() {
