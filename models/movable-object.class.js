@@ -14,13 +14,18 @@ class MovableObject extends DrawableObject {
 	};
 
 	hit() {
-		this.energy -= 1;
-		if (this.energy < 0) {
-			this.energy = 0;
-		} else {
-			this.lastHit = new Date().getTime();
-		}
-	}
+        const timeSinceLastHit = new Date().getTime() - this.lastHit;
+        const timeThreshold = 1; 
+
+        if (timeSinceLastHit >= timeThreshold) {
+            this.energy -= 1;
+            if (this.energy < 0) {
+                this.energy = 0;
+            } else {
+                this.lastHit = new Date().getTime();
+            }
+        }
+    }
 
 	hitsBack() {
 		this.x -= 1;
