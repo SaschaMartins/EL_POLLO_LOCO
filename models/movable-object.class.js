@@ -5,6 +5,8 @@ class MovableObject extends DrawableObject {
 	acceleration = 2;
 	lastHit = 0;
 	reJump_sound = new Audio('audio/rejump.mp3');
+	hurt_sound = new Audio('audio/hurt.mp3');
+	death_sound = new Audio('audio/death.mp3');
 	energy = 1000;
 	offset = {
 		top: 0,
@@ -15,15 +17,29 @@ class MovableObject extends DrawableObject {
 
 	hit() {
         const timeSinceLastHit = new Date().getTime() - this.lastHit;
-        const timeThreshold = 1; 
+        const timeThreshold = 1;
 
         if (timeSinceLastHit >= timeThreshold) {
             this.energy -= 1;
             if (this.energy < 0) {
                 this.energy = 0;
+                this.playDeathSound();
             } else {
                 this.lastHit = new Date().getTime();
+                this.playHurtSound();
             }
+        }
+    }
+
+    playHurtSound() {
+        if (!world.muted) {
+            this.hurt_sound.play();
+        }
+    }
+
+	playDeathSound() {
+        if (!world.muted) {
+            this.death_sound.play();
         }
     }
 
