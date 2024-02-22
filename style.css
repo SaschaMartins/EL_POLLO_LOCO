@@ -59,10 +59,9 @@ canvas {
 	background-position: center right;
 }
 
-#fullscreenButton,
-#endFullscreen,
 #muteButton,
 #endMuteButton {
+	padding-top: 12px;
     height: 30px;
 }
 
@@ -149,7 +148,7 @@ canvas {
 
 
 .soundControlIcon {
-	margin-right: 50px;
+	margin-right: 180px;
 }
 
 

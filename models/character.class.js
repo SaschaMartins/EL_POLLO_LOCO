@@ -156,19 +156,39 @@ class Character extends MovableObject {
     }
 
     characterJumpMovement() {
-        this.walking_sound.pause();
-        if (world.muted == false) {
-            this.jumping_sound.play();
+        this.pauseSound(this.walking_sound);
+        if (!this.world.muted) {
+            this.playSound(this.jumping_sound);
             this.jumping_sound.volume = 0.5;
         }
         this.jump();
     }
 
     playWalkingSound() {
-        if (!world.muted) {
-            this.walking_sound.play();
+        if (!this.world.muted) {
+            this.playSound(this.walking_sound);
         } else {
-            this.walking_sound.pause();
+            this.pauseSound(this.walking_sound);
+        }
+    }
+
+    playSound(audioElement) {
+        if (audioElement) {
+            const playPromise = audioElement.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                }).catch(error => {
+                });
+            }
+        }
+    }
+
+    pauseSound(audioElement) {
+        if (audioElement) {
+            try {
+                audioElement.pause();
+            } catch (error) {
+            }
         }
     }
 

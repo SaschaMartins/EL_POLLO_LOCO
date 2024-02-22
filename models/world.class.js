@@ -32,7 +32,35 @@ class World {
 		this.setWorld();
 		this.run();
 		this.collectObjects();
+		this.loadSounds();
 	}
+
+	loadSounds() {
+        let soundsToLoad = [
+            'audio/music.mp3',
+            'audio/coin.mp3',
+            'audio/broken-bottle.mp3',
+            'audio/chicken.mp3'
+        ];
+
+        this.sounds = {};
+
+        soundsToLoad.forEach(soundFile => {
+            let sound = new Audio(soundFile);
+            sound.oncanplaythrough = () => {
+                this.sounds[soundFile] = sound;
+            };
+        });
+    }
+
+    playSound(soundFile) {
+        if (this.sounds[soundFile]) {
+            this.sounds[soundFile].play();
+        } else {
+            console.error('Sound ' + soundFile + ' wurde nicht vollständig geladen.');
+        }
+    }
+
 
 	isMuted() {
 		this.isMutedIntervall = setInterval(() => {

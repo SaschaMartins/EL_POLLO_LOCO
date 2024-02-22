@@ -10,7 +10,6 @@ let allIntervals = [];
 function startGame() {
 	document.getElementById('canvas').classList.remove('d-none');
 	document.getElementById('muteButton').classList.remove('d-none');
-	document.getElementById('fullscreenButton').classList.remove('d-none');
 	document.getElementById('buttonsLeft').classList.remove('d-none');
 	document.getElementById('buttonsRight').classList.remove('d-none');
 	document.getElementById('startScreen').classList.add('d-none');
@@ -41,8 +40,6 @@ function gameWinnerScreen(muted) {
 			game_winner_sound.play();
 			game_winner_sound.volume = 0.4;
 		}
-		document.getElementById('endFullscreen').classList.add('d-none');
-		document.getElementById('fullscreenButton').classList.add('d-none');
 		document.getElementById('muteButton').classList.add('d-none');
 		document.getElementById('canvas').classList.add('d-none');
 		document.getElementById('endMuteButton').classList.add('d-none');
@@ -61,8 +58,6 @@ function gameOverScreen(muted) {
 			game_over_sound.play();
 			game_over_sound.volume = 0.4;
 		}
-		document.getElementById('endFullscreen').classList.add('d-none');
-		document.getElementById('fullscreenButton').classList.add('d-none');
 		document.getElementById('muteButton').classList.add('d-none');
 		document.getElementById('canvas').classList.add('d-none');
 		document.getElementById('buttonsLeft').classList.add('d-none');
@@ -84,7 +79,6 @@ function backToStartScreen() {
 	keyboard.MUTE = false;
 	document.getElementById('canvas').classList.add('d-none');
 	document.getElementById('muteButton').classList.add('d-none');
-	document.getElementById('fullscreenButton').classList.add('d-none');
 	document.getElementById('gameOverScreen').classList.add('d-none');
 	document.getElementById('buttonsLeft').classList.add('d-none');
 	document.getElementById('buttonsRight').classList.add('d-none');
@@ -105,42 +99,6 @@ function endMuteGame() {
 	document.getElementById('muteButton').classList.remove('d-none');
 	document.getElementById('endMuteButton').classList.add('d-none');
 	keyboard.MUTE = false;
-}
-
-
-function fullscreenGame() {
-	let fullscreen = document.getElementById('fullscreen');
-	document.getElementById('endFullscreen').classList.remove('d-none');
-	document.getElementById('fullscreenButton').classList.add('d-none');
-	enterFullscreen(fullscreen);
-}
-
-
-function endFullscreenGame() {
-	let endfullscreen = document.getElementById('fullscreen');
-	document.getElementById('fullscreenButton').classList.remove('d-none');
-	document.getElementById('endFullscreen').classList.add('d-none');
-	exitFullscreen(endfullscreen);
-}
-
-
-function enterFullscreen(element) {
-	if (element.requestFullscreen) {
-		element.requestFullscreen();
-	} else if (element.msRequestFullscreen) {
-		element.msRequestFullscreen();
-	} else if (element.webkitRequestFullscreen) {
-		element.webkitRequestFullscreen();
-	}
-}
-
-
-function exitFullscreen() {
-	if (document.exitFullscreen) {
-		document.exitFullscreen();
-	} else if (document.webkitExitFullscreen) {
-		document.webkitExitFullscreen();
-	}
 }
 
 
