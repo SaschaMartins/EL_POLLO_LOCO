@@ -1,3 +1,6 @@
+/**
+ * Represents a level in the game, containing all the entities and objects that make up the level.
+ */
 class Level {
 	
 	level_end_x = 2250;

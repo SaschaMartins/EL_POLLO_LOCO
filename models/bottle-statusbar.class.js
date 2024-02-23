@@ -1,7 +1,19 @@
+/**
+ * Represents the bottle status bar in the game.
+ * @extends DrawableObject
+ */
 class BottleBar extends DrawableObject {
 
+	/**
+	 * Interval ID for the bottle bar update interval.
+	 * @type {number}
+	 */
 	setBottlebarInterval;
-	
+
+	/**
+	 * Array of images for the bottle status bar.
+	 * @type {string[]}
+	 */
 	IMAGES_BOTTLEBAR = [
 		'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
 		'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png',
@@ -11,6 +23,9 @@ class BottleBar extends DrawableObject {
 		'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png',
 	];
 
+	/**
+	 * Constructs the bottle bar object and initializes its properties.
+	 */
 	constructor() {
 		super().loadImage(this.IMAGES_BOTTLEBAR[0]);
 		this.loadImages(this.IMAGES_BOTTLEBAR);
@@ -21,6 +36,9 @@ class BottleBar extends DrawableObject {
 		this.setBottlebar();
 	}
 
+	/**
+	 * Sets up an interval to update the bottle bar status based on collected bottles.
+	 */
 	setBottlebar() {
 		this.setBottlebarInterval = setInterval(() => {
 			if (world.collectedBottles.length > 1) {
@@ -33,14 +51,19 @@ class BottleBar extends DrawableObject {
 		}, 100);
 		allIntervals.push(this.setBottlebarInterval);
 	}
-	
 
+	/**
+	* Updates the bottle bar status based on the number of collected bottles.
+	*/
 	updateBottleBarStatus() {
 		if (world && world.collectedBottles) {
 			super.setBar(world.collectedBottles.length, this.IMAGES_BOTTLEBAR);
 		}
 	}
 
+	/**
+	 * Clears the interval that updates the bottle bar status.
+	 */
 	clearBottleBarInterval() {
 		if (this.setBottlebarInterval) {
 			clearInterval(this.setBottlebarInterval);

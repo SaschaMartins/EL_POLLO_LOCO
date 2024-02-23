@@ -1,9 +1,37 @@
+/**
+ * Represents the main character in the game.
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
 
+    /**
+     * The height of the character.
+     * @type {number}
+     */
     height = 250;
+
+    /**
+     * The width of the character.
+     * @type {number}
+     */
     width = 120;
+
+    /**
+     * The vertical position of the character.
+     * @type {number}
+     */
     y = 170;
+
+    /**
+     * The movement speed of the character.
+     * @type {number}
+     */
     speed = 5;
+
+    /**
+     * The offset for collision detection.
+     * @type {{top: number, bottom: number, left: number, right: number}}
+     */
     offset = {
         top: 110,
         bottom: 10,
@@ -68,6 +96,9 @@ class Character extends MovableObject {
     walking_sound = new Audio('audio/walking.mp3');
     jumping_sound = new Audio('audio/jump.mp3');
 
+    /**
+     * Constructs a new character and initializes its properties.
+     */
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -82,6 +113,9 @@ class Character extends MovableObject {
         this.handleMovement();
     }
 
+    /**
+     * Handles the character's movement logic, updating its position based on keyboard input.
+     */
     handleMovement() {
         this.movementInterval = setInterval(() => {
             this.walking_sound.pause();
@@ -99,6 +133,9 @@ class Character extends MovableObject {
         allIntervals.push(this.movementInterval);
     }
 
+    /**
+     * Initializes the character's animations based on its state.
+     */
     initializeAnimation() {
         this.animatonCharacterInterval = setInterval(() => {
             if (this.isDead()) {
@@ -116,15 +153,24 @@ class Character extends MovableObject {
         allIntervals.push(this.animatonCharacterInterval);
     }
 
+    /**
+     * Adjusts the camera position to follow the character.
+     */
     followCharacterWithCamera() {
         this.world.camera_x = -this.x + 100;
     }
 
+    /**
+     * Handles the character's idle animations.
+     */
     handleIdleAnimations() {
         this.timeSinceLastAction = new Date().getTime() - this.lastAction;
         this.playAnimation(this.timeSinceLastAction > 2000 ? this.IMAGES_IDLE : this.IMAGES_WAITING);
     }
 
+    /**
+     * Monitors the character's state and updates the last action timestamp.
+     */
     monitorCharacterState() {
         this.stateMonitorInterval = setInterval(() => {
             if (this.isInactive()) {
@@ -134,14 +180,24 @@ class Character extends MovableObject {
         allIntervals.push(this.stateMonitorInterval);
     }
 
+    /**
+     * Determines if the character is moving.
+     * @returns {boolean} True if the character is moving, false otherwise.
+     */
     isMoving() {
         return this.world.keyboard.RIGHT || (this.world.keyboard.LEFT && !this.isAboveGround());
     }
 
+    /**
+     * Makes the character jump.
+     */
     jump() {
         this.speedY = 20;
     }
 
+    /**
+     * Moves the character to the right and plays the walking sound.
+     */
     characterRightMovement() {
         this.moveRight();
         this.otherDirection = false;
@@ -149,12 +205,18 @@ class Character extends MovableObject {
 		this.playWalkingSound();
     }
 
+    /**
+     * Moves the character to the left and plays the walking sound.
+     */
     characterLeftMovement() {
         this.moveLeft();
         this.otherDirection = true;
         this.playWalkingSound();
     }
 
+     /**
+     * Initiates the character's jump movement and plays the jumping sound.
+     */
     characterJumpMovement() {
         this.pauseSound(this.walking_sound);
         if (!this.world.muted) {
@@ -164,6 +226,9 @@ class Character extends MovableObject {
         this.jump();
     }
 
+    /**
+     * Plays the walking sound if the game is not muted; otherwise, pauses it.
+     */
     playWalkingSound() {
         if (!this.world.muted) {
             this.playSound(this.walking_sound);
@@ -172,6 +237,10 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Plays a given sound.
+     * @param {HTMLAudioElement} audioElement - The audio element to play.
+     */
     playSound(audioElement) {
         if (audioElement) {
             const playPromise = audioElement.play();
@@ -183,6 +252,10 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Pauses a given sound.
+     * @param {HTMLAudioElement} audioElement - The audio element to pause.
+     */
     pauseSound(audioElement) {
         if (audioElement) {
             try {
@@ -192,18 +265,34 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * Checks if the right arrow key is pressed and the character is not past the end boss.
+     * @returns {boolean} True if the right arrow key is pressed and the character is before the end boss.
+     */
     keyboardRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.endboss.x;
     }
 
+    /**
+     * Checks if the left arrow key is pressed and the character is not at the left edge of the screen.
+     * @returns {boolean} True if the left arrow key is pressed and the character is not at the left edge.
+     */
     keyboardLeft() {
         return this.world.keyboard.LEFT && this.x > 0;
     }
 
+    /**
+     * Checks if the space bar is pressed and the character is not already jumping.
+     * @returns {boolean} True if the space bar is pressed and the character is on the ground.
+     */
     keyboardJump() {
         return this.world.keyboard.SPACE && !this.isAboveGround();
     }
 
+    /**
+     * Determines if the character is inactive based on various conditions.
+     * @returns {boolean} True if the character is inactive.
+     */
     isInactive() {
         return (
             this.world.keyboard.RIGHT ||

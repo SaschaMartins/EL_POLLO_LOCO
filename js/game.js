@@ -6,7 +6,9 @@ let game_winner_sound = new Audio('audio/you-win.mp3');
 let gameFinish = false;
 let allIntervals = [];
 
-
+/**
+ * Starts the game by initializing the level and setting up the game world.
+ */
 function startGame() {
 	document.getElementById('canvas').classList.remove('d-none');
 	document.getElementById('muteButton').classList.remove('d-none');
@@ -17,19 +19,32 @@ function startGame() {
 	init();
 }
 
+/**
+ * Opens the "How to Play" instructions overlay.
+ */
 function openHowToPlay() {
 	document.getElementById('mainHTP').classList.remove('d-none');
 }
 
+/**
+ * Closes the "How to Play" instructions overlay.
+ */
 function closeHowToPlay() {
 	document.getElementById('mainHTP').classList.add('d-none');
 }
 
+/**
+ * Initializes the game by creating the world and the canvas context.
+ */
 function init() {
 	canvas = document.getElementById('canvas');
 	world = new World(canvas, keyboard);
 }
 
+/**
+ * Displays the game winner screen and handles the audio and UI changes.
+ * @param {boolean} muted - Indicates whether the sound is muted.
+ */
 function gameWinnerScreen(muted) {
 	if (gameFinish == false) {
 		world.character.walking_sound.pause();
@@ -50,6 +65,10 @@ function gameWinnerScreen(muted) {
 	}
 }
 
+/**
+ * Displays the game over screen and handles the audio and UI changes.
+ * @param {boolean} muted - Indicates whether the sound is muted.
+ */
 function gameOverScreen(muted) {
 	if (gameFinish == false) {
 		stopIngameSounds();
@@ -68,12 +87,18 @@ function gameOverScreen(muted) {
 	}
 }
 
+/**
+ * Stops all in-game sounds and sets the keyboard mute state.
+ */
 function stopIngameSounds() {
 	keyboard.MUTE = true;
 	world.character.walking_sound.pause();
 	world.background_sound.pause();
 }
 
+/**
+ * Resets the game to the start screen and reinitializes the game state.
+ */
 function backToStartScreen() {
 	world.resetGame();
 	keyboard.MUTE = false;
@@ -87,21 +112,29 @@ function backToStartScreen() {
 	gameFinish = false;
 }
 
-
+/**
+ * Mutes the game by hiding the mute button and showing the unmute button.
+ */
 function muteGame() {
 	document.getElementById('endMuteButton').classList.remove('d-none');
 	document.getElementById('muteButton').classList.add('d-none');
 	keyboard.MUTE = true;
 }
 
-
+/**
+ * Unmutes the game by hiding the unmute button and showing the mute button.
+ */
 function endMuteGame() {
 	document.getElementById('muteButton').classList.remove('d-none');
 	document.getElementById('endMuteButton').classList.add('d-none');
 	keyboard.MUTE = false;
 }
 
-
+/**
+ * Simulates a key press event for the given key code and event type.
+ * @param {number} keyCode - The key code of the key to simulate.
+ * @param {string} type - The type of event to simulate ('keydown' or 'keyup').
+ */
 function simulateKeyPressed(keyCode, type) {
 	let e = document.createEvent('HTMLEvents');
 	e.initEvent(type, true, false);
@@ -113,6 +146,11 @@ function simulateKeyPressed(keyCode, type) {
 	updateKeyState(e.keyCode, isPressed);
 }
 
+/**
+ * Updates the state of the keys in the keyboard object based on the key code and whether it is pressed.
+ * @param {number} keyCode - The key code of the key to update.
+ * @param {boolean} isPressed - Whether the key is pressed or not.
+ */
 function updateKeyState(keyCode, isPressed) {
 	switch (keyCode) {
 		case 39: // Rechte Pfeiltaste
@@ -132,6 +170,7 @@ function updateKeyState(keyCode, isPressed) {
 	}
 }
 
+// Event listeners for keydown and keyup events
 window.addEventListener('keydown', (e) => {
 	updateKeyState(e.keyCode, true);
 });

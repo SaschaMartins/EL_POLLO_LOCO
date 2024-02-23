@@ -1,9 +1,19 @@
+/**
+ * Represents a smaller, weaker variant of a chicken enemy in the game.
+ * Inherits from MovableObject to utilize common movement and animation functionality.
+ */
 class miniChicken extends MovableObject {
 	y = 365;
 	width = 50;
 	height = 50;
 	energy = 2;
+
+	/**
+     * A flag indicating whether the mini chicken has played its death sound.
+     * @type {boolean}
+     */
 	isChickenDeath = false;
+
 	offset = {
 		top: 5,
 		bottom: 5,
@@ -19,7 +29,10 @@ class miniChicken extends MovableObject {
 
 	CHICKEN_SMALL_DEAD = ["img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
-
+	/**
+     * Constructs a miniChicken object and initializes its properties.
+     * @param {number} [xPosition=300] - The initial x position of the mini chicken. Defaults to 300 with a random offset.
+     */
 	constructor(xPosition) {
 		super().loadImage(this.CHICKEN_SMALL_WALKING[0]);
 		this.loadImages(this.CHICKEN_SMALL_WALKING);
@@ -30,7 +43,9 @@ class miniChicken extends MovableObject {
 		this.minichickenMovement();
 	}
 
-
+	/**
+     * Initiates the mini chicken's leftward movement and handles its death sound.
+     */
 	minichickenMovement() {
 		this.minichickenMovementInterval = setInterval(() => {
 			if (!this.isDead()) {
@@ -41,7 +56,9 @@ class miniChicken extends MovableObject {
 	}
 
 
-	
+	/**
+     * Plays the mini chicken's death sound once upon death.
+     */
 	playDeathSound() {
 		if (this.isChickenDeath == false) {
 			if (world.muted == false) {
@@ -52,7 +69,9 @@ class miniChicken extends MovableObject {
 		}
 	}
 
-
+	/**
+     * Sets up the animation interval for the mini chicken, cycling through walking or death frames.
+     */
 	animate() {
 		this.minichickenAnimate = setInterval(() => {
 			if (this.isDead()) {

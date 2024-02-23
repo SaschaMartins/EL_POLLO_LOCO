@@ -1,3 +1,7 @@
+/**
+ * Represents the endboss character in the game.
+ * @extends MovableObject
+ */
 class Endboss extends MovableObject {
 
 	y = 60;
@@ -55,6 +59,9 @@ class Endboss extends MovableObject {
 	isAttacking = false;
 	endbossAnimateInterval = null;
 
+	/**
+     * Creates an instance of the Endboss class.
+     */
 	constructor() {
 		super().loadImage(this.IMAGES_ALERTA[0]);
 		this.loadImages(this.IMAGES_WALKING);
@@ -66,6 +73,9 @@ class Endboss extends MovableObject {
 		this.animate();
 	}
 
+	/**
+     * Controls the animation state of the endboss, changing its behavior based on its current state.
+     */
 	animate() {
         this.endbossAnimateInterval = setInterval(() => {
             if (this.energy <= 0) {
@@ -87,6 +97,9 @@ class Endboss extends MovableObject {
         allIntervals.push(this.endbossAnimateInterval);
     }
 
+	/**
+     * Handles the endboss taking damage and triggers the attack animation.
+     */
     hit() {
         super.hit();
         if (this.energy > 0 && !this.isDead()) {
@@ -97,6 +110,9 @@ class Endboss extends MovableObject {
         }
     }
 
+	/**
+     * Cleans up intervals and any other resources when the endboss is destroyed.
+     */
 	destroy() {
 		if (this.endbossAnimateInterval) {
 			clearInterval(this.endbossAnimateInterval);
@@ -107,16 +123,25 @@ class Endboss extends MovableObject {
 		}
 	}
 	
-
+	/**
+     * Updates the size of the endboss's health bar based on its current health.
+     */
 	endbossBarSize() {
 		world.endbossBar.width = 250;
 		world.endbossBarHeart.width = 80;
 	}
 
+	/**
+     * Checks if the character is too close to the endboss.
+     * @returns {boolean} True if the character is within a certain distance of the endboss, false otherwise.
+     */
 	distanceTooClose() {
 		world.endboss.x - world.character.x <= 150;
 	}
 
+	/**
+     * Sets up the movement behavior of the endboss, allowing it to move left under certain conditions.
+     */
 	movement() {
 		this.endbossMovementInverval = setInterval(() => {
 			if (this.checkDistancePepeEndboss() || (this.checkIfEndbossMoved() && this.energy > 0)) {
@@ -126,10 +151,18 @@ class Endboss extends MovableObject {
 		allIntervals.push(this.endbossMovementInverval);
 	}
 
+	/**
+     * Checks if the character has reached a certain distance from the endboss.
+     * @returns {boolean} True if the character is beyond the specified distance, false otherwise.
+     */
 	checkDistancePepeEndboss() {
 		return world.character.x > 1950;
 	}
 
+	/**
+     * Checks if the endboss has moved from its original position or if its health is below a certain threshold.
+     * @returns {boolean} True if the endboss has moved or is low on health, false otherwise.
+     */
 	checkIfEndbossMoved() {
 		return world.endboss.x < 2300 || this.energy < 149;
 	}

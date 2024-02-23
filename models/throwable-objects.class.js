@@ -1,3 +1,7 @@
+/**
+ * Class representing throwable objects, such as bottles.
+ * @extends MovableObject
+ */
 class ThrowableObjects extends MovableObject {
 	BOTTLE_ROTATION = [
 		'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -19,7 +23,12 @@ class ThrowableObjects extends MovableObject {
 		left: 5,
 		right: 5,
 	};
-
+	
+	/**
+     * Create a throwable object.
+     * @param {number} x - The x position where the object is thrown from.
+     * @param {number} y - The y position where the object is thrown from.
+     */
 	constructor(x, y) {
 		super().loadImage(this.BOTTLE_ROTATION[0]);
 		this.loadImages(this.BOTTLE_ROTATION);
@@ -31,6 +40,9 @@ class ThrowableObjects extends MovableObject {
 		this.throw();
 	}
 
+	/**
+     * Handles the throw animation and logic for the throwable object.
+     */
 	throw() {
 		if (this.hasBottlesAndLooksRight()) {
 			this.throwRightAnimation();
@@ -42,14 +54,25 @@ class ThrowableObjects extends MovableObject {
 		}
 	}
 
+	/**
+     * Checks if the character has bottles and is looking to the right.
+     * @returns {boolean} True if the character has bottles and is facing right.
+     */
 	hasBottlesAndLooksRight() {
 		return world.collectedBottles.length > 0 && !world.character.otherDirection;
 	}
 
+	/**
+     * Checks if the character has bottles and is looking to the left.
+     * @returns {boolean} True if the character has bottles and is facing left.
+     */
 	hasBottlesAndLooksLeft() {
 		return world.collectedBottles.length > 0 && world.character.otherDirection;
 	}
 
+	/**
+     * Animates the throwable object moving to the left.
+     */
 	throwLeftAnimation() {
 		this.throwLeftAnimationInterval1 = setInterval(() => {
 			this.playAnimation(this.BOTTLE_ROTATION);
@@ -63,6 +86,9 @@ class ThrowableObjects extends MovableObject {
 		allIntervals.push(this.throwLeftAnimationInterval2);
 	}
 
+	/**
+     * Animates the throwable object moving to the right.
+     */
 	throwRightAnimation() {
 		this.throwRightAnimationInterval1 = setInterval(() => {
 			this.playAnimation(this.BOTTLE_ROTATION);
@@ -76,6 +102,9 @@ class ThrowableObjects extends MovableObject {
 		allIntervals.push(this.throwRightAnimationInterval2);
 	}
 
+	/**
+     * Animates the splash when the throwable object hits something.
+     */
 	splashAnimation() {
 		this.splashAnimationIntervall = setInterval(() => {
 			this.playAnimation(this.BOTTLE_SPLASH);
