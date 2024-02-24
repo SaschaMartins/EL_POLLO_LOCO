@@ -20,10 +20,16 @@ function startGame() {
 }
 
 /**
- * Opens the "How to Play" instructions overlay.
+ * Opens the "How to Play" instructions overlay and plays a door knock sound after 1.337 seconds.
  */
 function openHowToPlay() {
-	document.getElementById('mainHTP').classList.remove('d-none');
+    document.getElementById('mainHTP').classList.remove('d-none');
+    
+    // Set a timeout to play the door knock sound after 1.337 seconds
+    setTimeout(function() {
+        let doorKnockSound = new Audio('audio/doorknock.mp3');
+        doorKnockSound.play();
+    }, 1337); // 1.337 Sekunden = 1337 Millisekunden
 }
 
 /**
