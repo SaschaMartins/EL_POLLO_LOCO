@@ -153,18 +153,18 @@ function simulateKeyPressed(keyCode, type) {
  */
 function updateKeyState(keyCode, isPressed) {
 	switch (keyCode) {
-		case 39: // Rechte Pfeiltaste
+		case 39: // Right Arrowkey
 		case 68: // D
 			keyboard.RIGHT = isPressed;
 			break;
-		case 37: // Linke Pfeiltaste
+		case 37: // Left Arrowkey
 		case 65: // A
 			keyboard.LEFT = isPressed;
 			break;
-		case 32: // Leertaste
+		case 32: // Space
 			keyboard.SPACE = isPressed;
 			break;
-		case 13: // Eingabetaste
+		case 13: // Enter
 			keyboard.ENTER = isPressed;
 			break;
 	}
