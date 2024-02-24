@@ -65,6 +65,15 @@ class Endboss extends MovableObject {
 	hitmarkerTimeout = null;
 	hitmarkerWidth = 50;
 	hitmarkerHeight = 50;
+	currentHitSoundIndex = 0;
+    hitSounds = [
+        'audio/1.mp3',
+        'audio/2.mp3',
+        'audio/3.mp3',
+        'audio/4.mp3',
+        'audio/5.mp3'
+    ];
+
 	/**
 	 * Creates an instance of the Endboss class.
 	 */
@@ -120,13 +129,29 @@ class Endboss extends MovableObject {
 			this.isAttacking = true;
 
 			this.playHitSound();
+			this.playEndbossHitSound();
 			this.showRandomHitmarker();
 
 			setTimeout(() => {
 				this.isAttacking = false;
-			}, this.IMAGES_ATTACK.length * 300); // Zeit basierend auf der Anzahl der Angriffsbilder
+			}, this.IMAGES_ATTACK.length * 300);
 		}
 	}
+
+	/**
+     * Plays the endboss hit sound effect in sequence.
+     */
+	playEndbossHitSound() {
+        if (!this.currentHitSound || this.currentHitSound.ended) {
+            this.currentHitSound = new Audio(this.hitSounds[this.currentHitSoundIndex]);
+            this.currentHitSound.play();
+            this.currentHitSoundIndex++;
+            if (this.currentHitSoundIndex >= this.hitSounds.length) {
+                this.currentHitSoundIndex = 0;
+            }
+        }
+    }
+
 
 	/**
 	 * Plays the hit sound effect with a cooldown to prevent spamming.
